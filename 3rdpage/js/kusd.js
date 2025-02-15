@@ -357,7 +357,7 @@ function formatNum(num) {
 // get asset prices from KoinDX (currently with price object workaround)
 async function getPrices() {
     // get KAP oracle
-    try {
+    try {      
       const kapContract = new Contract({
           id: "13PXvxWLMyi4dAd6uS1SehNNFryvFyygnD",
           abi: utils.tokenAbi,
@@ -367,6 +367,7 @@ async function getPrices() {
       const { operation, result } = await kapContract.get_kap_price({
           tokenAddress: '1Mzp89UMsSh6Fiy4ZEVvTKsmxUYpoJ3emH'
       });
+
       kapPrice = result.price / 100000000;
       console.log('KAP price: ', kapPrice);
     
