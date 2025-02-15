@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Laag_1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 665.1 768">
+  <!-- Generator: Adobe Illustrator 29.3.0, SVG Export Plug-In . SVG Version: 2.1.0 Build 146)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: #fbc43b;
+      }
+
+      .st1 {
+        fill: #fff;
+      }
+    </style>
+  </defs>
+  <path class="st0" d="M332.6,0L0,192v384l332.6,192,332.6-192V192L332.6,0h0Z"/>
+  <path class="st1" d="M167.3,221.5h113.9v121h2.6l108.6-121h124.4l-128.4,132,153.6,192.9h-124.4l-95.3-125-41,44v81h-113.9V221.5Z"/>
+</svg>

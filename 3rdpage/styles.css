@@ -1,0 +1,267 @@
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.group {
+  margin-top: 30px;
+}
+
+#result {
+  margin-top: 30px;
+  width: 100%;
+  padding: 8px 20px;
+  border-radius: 4px;
+  box-sizing: border-box;
+  background-color: rgb(224, 224, 224);
+}
+
+/* Custom hover effect for the Launch App button */
+.clickable-button {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.clickable-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+
+
+
+
+
+.launch-button {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.launch-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip .tooltiptext {
+  visibility: visible;
+  width: 180px;
+  background-color: #1F2937;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: -70%;
+  left: 40%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.loader {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  border: 4px solid black;
+  top: 50%;
+  animation: loader 2s infinite ease;
+}
+
+.loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: black;
+  animation: loader-inner 2s infinite ease-in;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  
+  25% {
+    transform: rotate(180deg);
+  }
+  
+  50% {
+    transform: rotate(180deg);
+  }
+  
+  75% {
+    transform: rotate(360deg);
+  }
+  
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loader-inner {
+  0% {
+    height: 0%;
+  }
+  
+  25% {
+    height: 0%;
+  }
+  
+  50% {
+    height: 100%;
+  }
+  
+  75% {
+    height: 100%;
+  }
+  
+  100% {
+    height: 0%;
+  }
+}
+
+
+
+
+
+/* Custom fade-in effect for text transition */
+.fade-text {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+.fade-in {
+  opacity: 1 !important;
+}
+
+/* Custom hover effect for the Launch App button */
+.launch-button {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.launch-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Key Feature Boxes with subtle gray shading */
+.key-feature-box {
+  border: 1px solid #e0e0e0; /* Subtle gray border */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+/* Bottom links section */
+.bottom-links {
+  background-color: #f9f9f9;
+  padding: 20px 0;
+  text-align: center;
+}
+
+.bottom-links a {
+  text-decoration: none;
+  color: #333;
+  margin: 0 15px;
+  font-size: 16px;
+}
+
+.bottom-links a:hover {
+  color: #0073e6;
+}
+
+/* Q&A Section Styles */
+.qa-section {
+  
+  padding: 20px;
+}
+
+.qa-question {
+  font-weight: bold;
+  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+.qa-answer {
+  margin-top: 5px;
+  padding: 10px;
+}
+
+#introSection {
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+#introSection.visible {
+  opacity: 1;
+}
+
+
+#featureSection {
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+#featureSection.visible {
+  opacity: 1;
+}
+
+
+#aboutSection {
+  opacity: 0;
+  transition: opacity 1.5s ease-in-out;
+}
+
+#aboutSection.visible {
+  opacity: 1;
+}
+
+#displayTVL {
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+}
+
+#displayTVL.visible {
+  opacity: 1;
+}
+
+
+
+.liqtip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.liqtip .liqtiptext {
+  visibility: hidden;
+  width: 160px;
+  height: 40px;
+  background-color: #1F2937;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  top: 0%;
+  left: 110%;
+  margin-left: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+.liqtip:hover .liqtiptext {
+  visibility: visible;
+  opacity: 1;
+}

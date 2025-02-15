@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KUSD Interface</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+
+  <body class="bg-gray-100 font-sans">
+
+    <!--Loading screen with connect button-->
+    <section 
+      class="min-h-screen flex flex-col justify-center items-center text-center p-6"
+      id="launchSection">
+      <button 
+        onclick="connect()"
+        class="launch-button bg-black text-white py-4 px-10 rounded-lg text-lg font-semibold hover:bg-gray-800 mb-6"
+        id="connectBtn">Connect Wallet
+      </button>
+
+      <span id="loadingSquare" class="loader" hidden><span class="loader-inner"></span></span>
+    </section>
+
+    <!-- Top UI bar with buttons-->
+    <div 
+      class="py-4 px-10"
+      id="uiBar"
+      style="display: none;">
+
+      
+
+      <div class="space-x-4 flex flex-wrap justify-between items-center">
+
+        <div class="flex space-x-4 mb-2">
+            <button 
+              class="clickable-button bg-black text-white py-4 px-10 rounded-lg text-sm font-semibold hover:bg-gray-800"
+              onclick="location.href='index.html'">Home</button>
+            <button 
+              class="clickable-button bg-black text-white py-4 px-10 rounded-lg text-sm font-semibold hover:bg-gray-800"
+              id="vaultBtn">My Vault</button>
+            <button 
+              class="clickable-button bg-black text-white py-4 px-10 rounded-lg text-sm font-semibold hover:bg-gray-800"
+              id="protocolBtn">KUSD Protocol</button>
+            <button 
+              class="clickable-button bg-black text-white py-4 px-10 rounded-lg text-sm font-semibold hover:bg-gray-800"
+              id="vaultsBtn">Risky Vaults</button>
+        </div>
+          
+        <div class="flex space-x-6 mb-2">
+            <button 
+              class="tooltip clickable-button bg-black text-white py-4 px-10 rounded-lg text-sm font-semibold hover:bg-gray-800" 
+              id="addressBtn">Address
+              <span class="tooltiptext">Show address on Koiner</span>
+            </button>
+            <button 
+              onclick="disconnect()" 
+              class="clickable-button bg-black text-white py-4 px-10 rounded-lg text-sm font-semibold hover:bg-gray-800 " 
+              id="disconnectBtn">Disconnect</button>
+        </div>
+    
+    </div>
+    
+
+
+    </div>
+
+
+    <div 
+      class="flex justify-center px-4 sm:px-6 lg:px-8 ">
+      
+      <!-- Box with user's vault -->
+      <div
+        class="bg-white shadow-xl rounded-lg w-full sm:w-[540px] p-8 space-y-2 mt-6"
+        id="myVaultBox"
+        style="display: none;">
+
+          <div class="text-xl font-semibold mb-6 text-center text-gray-800">My Vault</div>
+          
+          <div class="grid grid-cols-2 gap-3">
+              <div>
+                  <div class="text-gray-600 font-medium">KOIN</div>
+                  <div id="koinBalance" class="text-lg font-semibold">0.00</div>
+              </div>
+              <div>
+                  <div class="text-gray-600 font-medium">ETH</div>
+                  <div id="ethBalance" class="text-lg font-semibold">0.00</div>
+              </div>
+              <div>
+                  <div class="text-gray-600 font-medium">BTC</div>
+                  <div id="btcBalance" class="text-lg font-semibold">0.00</div>
+              </div>
+              <div>
+                  <div class="text-gray-600 font-medium">KAS</div>
+                  <div id="kasBalance" class="text-lg font-semibold">0.00</div>
+              </div>
+          </div>
+
+          <div class="border-t border-gray-200 pt-2 flex justify-between items-center">
+              <div class="text-gray-600">KUSDG Collateral Value</div>
+              <div id="kusdgCV" class="text-xl font-semibold text-green-600">$0.00</div>
+          </div>
+
+          <div class="border-gray-200 flex justify-between items-center">
+              <div class="text-gray-600">KUSDS Collateral Value</div>
+              <div id="kusdsCV" class="text-xl font-semibold text-green-600">$0.00</div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 pt-2">
+              <div>
+                  <div class="text-gray-600 font-medium">KUSD Gold</div>
+                  <div id="kusdgBalance" class="text-lg font-semibold">0.00</div>
+              </div>
+              <div>
+                  <div class="text-gray-600 font-medium">KUSD Silver</div>
+                  <div id="kusdsBalance" class="text-lg font-semibold">0.00</div>
+              </div>
+          </div>
+
+          <div class="border-t border-gray-200 pt-2 flex justify-between items-center">
+              <div class="text-gray-600"> KUSDG Collateral Ratio</div>
+              <div id="kusdgCR" class="text-xl font-semibold text-blue-600"> - %</div>
+          </div>
+          <div class="border-gray-200 flex justify-between items-center">
+            <div class="text-gray-600">KUSDS Collateral Ratio</div>
+            <div id="kusdsCR" class="text-xl font-semibold text-blue-600"> - %</div>
+          </div>
+
+          <div class="space-x-3 flex justify-between py-4">
+              <button
+                class="clickable-button bg-black text-white py-2 px-4 rounded font-semibold hover:bg-gray-400 actionBtn" 
+                id="depositBtn">Deposit</button>
+              <button 
+                class="clickable-button bg-black text-white py-2 px-4 rounded font-semibold hover:bg-gray-400 actionBtn" 
+                id="mintBtn">Mint</button>
+              <button
+                class="clickable-button bg-black text-white py-2 px-4 rounded font-semibold hover:bg-gray-400 actionBtn"  
+                id="withdrawBtn">Withdraw</button>
+              <button 
+                class="clickable-button bg-black text-white py-2 px-4 rounded font-semibold hover:bg-gray-400 actionBtn" 
+                id="repayBtn">Repay</button>
+          </div>
+
+          <!-- Dynamic Action Input Box -->
+          <div id="actionBox" class="hidden mt-6 w-full border border-gray-300 rounded-lg transition-opacity duration-300 ease-in-out">
+              <div class="p-6">
+                  <div class="mb-4 flex justify-between items-baseline">
+                      <label for="token" class="mt-1 text-gray-600 font-medium">Token</label>
+                      <select id="token" class="border border-gray-300 p-2 w-2/3 rounded">
+                          <option value="" disabled selected>Select Token</option>
+                      </select>
+                  </div>
+                  <div class="mb-4 flex justify-between">
+                      <label for="amount" class="mt-1 text-gray-600 font-medium">Amount</label>
+                      <input type="text" id="amount" class="border border-gray-300 p-2 w-2/3 rounded" placeholder="Enter Amount">
+                  </div>
+                  <div class="flex justify-between">
+                    <button 
+                      id="submitAction" 
+                      class="clickable-button bg-black text-white py-2 px-4 rounded font-semibold hover:bg-gray-400">Submit</button>
+                      <label id="submitText" class="mt-1 text-gray-600 font-medium"></label>
+                  </div>
+                    
+                  </div>
+              </div>
+          </div>
+
+          <!-- Box with protocol statistics -->
+        <div
+        class="bg-white shadow-xl rounded-lg w-full sm:w-[540px] p-8 space-y-2 mt-6"
+        id="protocolBox" 
+        style="display: none;">
+
+        <div class="text-xl font-semibold mb-8 text-center text-gray-800 ">KUSD Statistics</div>
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <div class="text-gray-600 font-medium">TVL</div>
+            <div id="totalTVL" class="text-lg font-semibold">$ 0.00</div>
+          </div>
+          <div class="flex justify-between">
+            <div class="text-gray-600 font-medium">KUSD Gold Supply</div>
+            <div id="kusdgSupply" class="text-lg font-semibold">0.00</div>
+          </div>
+          <div class="flex justify-between">
+            <div class="text-gray-600 font-medium">KUSD Silver Supply</div>
+            <div id="kusdsSupply" class="text-lg font-semibold">0.00</div>
+          </div>
+          <div class="flex justify-between">
+            <div class="text-gray-600 font-medium">KUSD Gold Collateral Ratio</div>
+            <div id="kusdgCollateralRatio" class="text-lg font-semibold"> - %</div>
+          </div>
+          <div class="flex justify-between">
+            <div class="text-gray-600 font-medium">KUSD Silver Collateral Ratio</div>
+            <div id="kusdsCollateralRatio" class="text-lg font-semibold"> - %</div>
+          </div>
+          <div class="flex justify-between">
+            <div class="text-gray-600 font-medium">Vaults</div>
+            <div id="vaultCount" class="text-lg font-semibold">0</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Box with risky vaults -->
+      <div
+      id="vaultsBox"
+      class="bg-white shadow-xl rounded-lg w-full sm:w-[840px] p-8 space-y-2 mt-6 mb-4"
+      style="display: none;">
+
+      <div class="text-xl font-semibold mb-6 text-center text-gray-800">Risky Vaults</div>
+      <div>
+        <div class="flex justify-between mb-6">
+          <div class="text-gray-600 font-medium" style="width: 120px;">Address</div>
+          <div class="text-gray-600 font-medium" style="width: 100px;">Collateral</div>
+          <div class="text-gray-600 font-medium" style="width: 120px;">Debt</div>
+          <div class="text-gray-600 font-medium" style="width: 150px;">Coll. Ratio</div>
+          <div style="width: 100px;"></div>
+        </div>
+        <div  id="vaultHook" class="space-y-1"></div>
+      </div>
+
+      </div>
+
+      </div>
+        
+
+    </div>
+
+    <!-- Transactions Notification Box -->
+    <div
+      id="notificationBox"
+      class="hidden fixed bottom-4 left-4 bg-white p-4 border border-gray-300 rounded shadow-lg opacity-0 transition-opacity duration-300 ease-in-out">
+      <span id= "notificationText" class="text-gray-800"> </span>
+    </div>
+
+    <script src="js/kondor.js"></script> <!-- js/kondor.min.js -->
+    <script src="js/koinos.js"></script> <!-- js/koinos.min.js -->
+    <script src="js/kusd.js"></script>
+
+  </body>
+</html>

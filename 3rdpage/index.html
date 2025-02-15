@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Stablecoin Zero Interest Loans</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        window.onload = () => displayTVL();
+
+    </script>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+
+</head>
+<body class="bg-white font-sans text-black">
+
+    <!-- Hero Section with Dynamic Text -->
+    <section id="launchSection" class="min-h-screen flex flex-col justify-center items-center text-center p-6">
+        <h1 class="text-4xl md:text-6xl font-bold mb-4">
+            <span id="dynamic-text" class="fade-text fade-in">Zero interest loans</span>
+        </h1>
+        <p class="text-lg md:text-xl mb-6">
+            Borrow KUSD against KOIN, ETH, BTC or KAS
+        </p>
+
+        <!-- Launch App Button -->
+        <a href="app.html" class="launch-button bg-black text-white py-4 px-10 rounded-lg text-lg font-semibold hover:bg-gray-800 mb-4">
+            Launch App
+        </a>
+
+        <!-- Total Value Locked Text -->
+        <p id="displayTVL" class="text-lg md:text-xl text-gray-700">
+            Total Value Locked: $
+        </p>
+    </section>
+
+    <!-- What is KUSD Section -->
+    <section id="introSection" class="w-full py-6 bg-white py-48">
+        <div class="mx-auto px-6 max-w-6xl">
+            <div class="grid md:grid-cols-2 gap-8 items-center"> <!--"container mx-auto flex flex-col md:flex-row items-center"-->
+                <!-- Left Side -->
+                <div class=" mb-8 md:mb-0 px-20">
+                    <h2 class="text-3xl font-semibold text-gray-800 mb-4">Meet KUSD</h2>
+                    <p class="text-lg text-gray-600 mb-4">
+                        KUSD is a decentralized, overly-collateralized stablecoin pegged to the US dollar. Built on the feeless Koinos blockchain, it is the most frictionless stablecoin in the cryptoverse.
+                    </p>
+                    <p class="text-lg text-gray-600 mb-4">
+                        Deposit Koinos, Ether, Bitcoin, or Kaspa as collateral and start to experience DeFi with zero transaction fees.
+                    </p>
+                </div>
+                
+                <!-- Right Side (Image) -->
+                <div class=" mb-8 md:mb-0 px-20 flex justify-center">
+                    <img src="images/kusds_logo.svg" alt="Kusd Logo" class="rounded-lg" style="max-width: 240px; max-height: 240px;">
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- Features Section Just Above FAQ bg-gray-100-->
+    <section id="featureSection" class=" py-48 px-24 mt-24">
+        <div class="container mx-auto text-center">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 px-6">
+                <!-- Frictionless Feature -->
+                <div class="p-6 bg-white rounded-lg shadow-md flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 overflow-hidden">
+                        <img src="images/money.png" alt="Logo" class="object-cover w-full h-full">
+                    </div>
+                    
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Frictionless</h3>
+                    <p class="text-gray-600">
+                        No high interest rates, no transaction fees.
+                        Instead KUSD charges a small, one-time fee of 0,3% upon deposit</p>
+                </div>
+                
+                <!-- Capital Efficient Feature -->
+                <div class="p-6 bg-white rounded-lg shadow-md flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 overflow-hidden">
+                        <img src="images/straight.png" alt="Logo" class="object-cover w-full h-full">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Maximal flexibility</h3>
+                    <p class="text-gray-600">
+                        Manage your position with zero transaction fees.
+                        Set a collateral ratio of up to 110%</p>
+                </div>
+
+                <!-- Decentralized Feature -->
+                <div class="p-6 bg-white rounded-lg shadow-md flex flex-col items-center">
+                    <div class="w-16 h-16 mb-4 overflow-hidden">
+                        <img src="images/blockchain.png" alt="Logo" class="object-cover w-full h-full">
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-800 mb-6">Decentralized</h3>
+                    <p class="text-xltext-gray-600">
+                        Immutable, non-custodial, and governance-free.
+                        Have full control over your assets at all times.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+     <!-- About Section -->
+     <section id="aboutSection" class="qa-section py-24 px-24">
+        <div class="container mx-auto">
+            <h2 class="text-3xl font-semibold text-gray-800 text-center mb-10">About KUSD</h2>
+            <div class="space-y-4">
+                <!-- Question 1 -->
+                <div>
+                    <div class="qa-question text-xl font-semibold">What is the KUSD protocol?</div>
+                    <div id="answer-1" class="qa-answer">
+                        <p class="text-lg text-gray-600">
+                            Koinos USD (KUSD) is the first native stablecoin of the Koinos Blockchain. 
+                            It is a decentralized borrowing protocol that allows you to create 0% interest loans using Koinos, Ether, Bitcoin, and Kaspa as collateral. 
+                            A minimum collateral ratio of 110% is required.
+                        </p>
+                    </div>
+                </div>
+                <!-- Question 2 -->
+                <div>
+                    <div class="qa-question text-xl font-semibold">Is KUSD free?</div>
+                    <div id="answer-2" class="qa-answer">
+                        <p class="text-lg text-gray-600">
+                            Instead of charging unpredictable interest rates, a one-time fee of 0.3% is deducted when you deposit collateral. 
+                            Afterwards you can manage your position without worrying about fees.
+                            Freely mint KUSD (within the 110% collateral ratio limits) and repay your loan as you see fit.
+                            The Koinos blockchain is feeless, which means you pay zero transaction fees.
+                        </p>
+                    </div>
+                </div>
+                <!-- Question 3 -->
+                <div>
+                    <div class="qa-question text-xl font-semibold">How does KUSD maintain its peg?</div>
+                    <div id="answer-3" class="qa-answer">
+                        <p class="text-lg text-gray-600 mb-2">
+                            KUSD uses market incentives to maintain its $1 peg.
+                            If the price of KUSD falls below $1 borrowers can cheaply repay their loans, buying up KUSD and bringing the price back to the peg.
+                            If KUSD is worth more than $1 everyone can mint extra KUSD and sell it at a profit, pushing down the price.
+                        </p>
+                        <p class="text-lg text-gray-600">
+                            If a borrower's position falls below the 110% collateral threshold anyone can trigger a liquidation and receive the borrower's collateral and debt, effectively making a 10% profit.
+                        </p>
+                    </div>
+                </div>
+                <!-- Question 4 -->
+                <div>
+                    <div class="qa-question text-xl font-semibold">What is the difference between KUSD Gold and KUSD Silver?</div>
+                    <div id="answer-4" class="qa-answer">
+                        <p class="text-lg text-gray-600">
+                            KUSD can be minted using four types of tokens as collateral: Koinos, Ether, Bitcoin and Kaspa.
+                            These last three tokens are wrapped which means there is a slight, although very unlikely, possibility of a hack.
+                            To further strengthen the robustness of KUSD we segregate collateral and offer users the choice between KUSD backed by Koinos - KUSD Gold (KUSDG) - and KUSD backed by Ether, Bitcoin and Kaspa - KUSD Silver (KUSDS).
+                            Both stablecoins are worth $1 and work according to the same mechanisms.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+    
+    <!-- Bottom Links Section -->
+    <section class="bottom-links py-6">
+        <div>
+            <a href="#" target="_blank">Terms of Use</a>
+            <a href="#" target="_blank">Docs</a>
+            <a href="#" target="_blank">Discord</a>
+            <a href="#" target="_blank">Github</a>
+            <a href="#" target="_blank">X</a>
+            <a href="https://t.me/your-telegram-link" target="_blank">Telegram</a>
+        </div>
+    </section>
+
+    <script src="js/kondor.js"></script> <!-- js/kondor.min.js -->
+    <script src="js/koinos.js"></script> <!-- js/koinos.min.js -->
+    <script src="js/kusd.js"></script>
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const launchSection = document.getElementById('launchSection');
+            const introSection = document.getElementById('introSection');
+            const featureSection = document.getElementById('featureSection');
+            const aboutSection = document.getElementById('aboutSection');
+
+            const scrollThreshold = window.innerHeight / 3;
+            const disappearThreshold = window.innerHeight / 1.25;
+
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY + window.innerHeight;
+                if (scrollPosition > introSection.offsetTop + scrollThreshold && scrollPosition < featureSection.offsetTop + disappearThreshold) {
+                    introSection.classList.add('visible');
+                } else {
+                    introSection.classList.remove('visible');
+                }
+                if (scrollPosition > featureSection.offsetTop + scrollThreshold && scrollPosition < aboutSection.offsetTop + disappearThreshold) {
+                    featureSection.classList.add('visible');
+                } else {
+                    featureSection.classList.remove('visible');
+                }
+                if (scrollPosition > aboutSection.offsetTop + scrollThreshold) {
+                    aboutSection.classList.add('visible');
+                } else {
+                    aboutSection.classList.remove('visible');
+                }
+            });
+        });
+
+
+        // Change launch text
+        const textOptions = [
+            "Zero interest loans",
+            "Zero transaction fees",
+            "Zero friction stablecoins"
+        ];
+
+        let currentIndex = 0;
+
+        function changeText() {
+            const textElement = document.getElementById("dynamic-text");
+            textElement.classList.remove("fade-in");
+
+            setTimeout(() => {
+                currentIndex = (currentIndex + 1) % textOptions.length;
+                textElement.textContent = textOptions[currentIndex];
+                textElement.classList.add("fade-in");
+            }, 1200);
+        }
+
+        setInterval(changeText, 5200);
+
+    </script>
+</body>
+</html>
