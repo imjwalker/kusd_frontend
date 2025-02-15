@@ -108,3 +108,4 @@ The compiled application will be located in the folder `dist`. Open chrome and g
 Many thanks to the sponsors of this extension: @levineam, @Amikob, @motoeng, @isaacdozier, @imjwalker, and the private sponsors.
 
 If you would like to contribute to the development of this extension consider becoming a sponsor in https://github.com/sponsors/joticajulian.
+"# kusd_frontend" 
