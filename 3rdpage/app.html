@@ -94,40 +94,49 @@
                   <div class="text-gray-600 font-medium">BTC</div>
                   <div id="btcBalance" class="text-lg font-semibold">0.00</div>
               </div>
-              <div>
-                  <div class="text-gray-600 font-medium">KAS</div>
-                  <div id="kasBalance" class="text-lg font-semibold">0.00</div>
-              </div>
           </div>
 
           <div class="border-t border-gray-200 pt-2 flex justify-between items-center">
-              <div class="text-gray-600">KUSDG Collateral Value</div>
-              <div id="kusdgCV" class="text-xl font-semibold text-green-600">$0.00</div>
+              <div class="text-gray-600">Kusd.koin Collateral</div>
+              <div id="kusdKoinCV" class="text-xl font-semibold text-green-600">$0.00</div>
           </div>
 
           <div class="border-gray-200 flex justify-between items-center">
-              <div class="text-gray-600">KUSDS Collateral Value</div>
-              <div id="kusdsCV" class="text-xl font-semibold text-green-600">$0.00</div>
+              <div class="text-gray-600">Kusd.eth Collateral</div>
+              <div id="kusdEthCV" class="text-xl font-semibold text-green-600">$0.00</div>
+          </div>
+
+          <div class="border-gray-200 flex justify-between items-center">
+            <div class="text-gray-600">Kusd.btc Collateral</div>
+            <div id="kusdBtcCV" class="text-xl font-semibold text-green-600">$0.00</div>
           </div>
 
           <div class="grid grid-cols-2 gap-3 pt-2">
               <div>
-                  <div class="text-gray-600 font-medium">KUSD Gold</div>
-                  <div id="kusdgBalance" class="text-lg font-semibold">0.00</div>
+                  <div class="text-gray-600 font-medium">Kusd.koin</div>
+                  <div id="kusdKoinBalance" class="text-lg font-semibold">0.00</div>
               </div>
               <div>
-                  <div class="text-gray-600 font-medium">KUSD Silver</div>
-                  <div id="kusdsBalance" class="text-lg font-semibold">0.00</div>
+                  <div class="text-gray-600 font-medium">Kusd.eth</div>
+                  <div id="kusdEthBalance" class="text-lg font-semibold">0.00</div>
+              </div>
+              <div>
+                <div class="text-gray-600 font-medium">Kusd.btc</div>
+                <div id="kusdBtcBalance" class="text-lg font-semibold">0.00</div>
               </div>
           </div>
 
           <div class="border-t border-gray-200 pt-2 flex justify-between items-center">
-              <div class="text-gray-600"> KUSDG Collateral Ratio</div>
-              <div id="kusdgCR" class="text-xl font-semibold text-blue-600"> - %</div>
+              <div class="text-gray-600"> Kusd.koin Collateral Ratio</div>
+              <div id="kusdKoinCR" class="text-xl font-semibold text-blue-600"> - %</div>
           </div>
           <div class="border-gray-200 flex justify-between items-center">
-            <div class="text-gray-600">KUSDS Collateral Ratio</div>
-            <div id="kusdsCR" class="text-xl font-semibold text-blue-600"> - %</div>
+            <div class="text-gray-600">Kusd.eth Collateral Ratio</div>
+            <div id="kusdEthCR" class="text-xl font-semibold text-blue-600"> - %</div>
+          </div>
+          <div class="border-gray-200 flex justify-between items-center">
+            <div class="text-gray-600">Kusd.btc Collateral Ratio</div>
+            <div id="kusdBtcCR" class="text-xl font-semibold text-blue-600"> - %</div>
           </div>
 
           <div class="space-x-3 flex justify-between py-4">
@@ -182,20 +191,28 @@
             <div id="totalTVL" class="text-lg font-semibold">$ 0.00</div>
           </div>
           <div class="flex justify-between">
-            <div class="text-gray-600 font-medium">KUSD Gold Supply</div>
-            <div id="kusdgSupply" class="text-lg font-semibold">0.00</div>
+            <div class="text-gray-600 font-medium">Kusd.koin Supply</div>
+            <div id="kusdKoinSupply" class="text-lg font-semibold">0.00</div>
           </div>
           <div class="flex justify-between">
-            <div class="text-gray-600 font-medium">KUSD Silver Supply</div>
-            <div id="kusdsSupply" class="text-lg font-semibold">0.00</div>
+            <div class="text-gray-600 font-medium">Kusd.eth Supply</div>
+            <div id="kusdEthSupply" class="text-lg font-semibold">0.00</div>
           </div>
           <div class="flex justify-between">
-            <div class="text-gray-600 font-medium">KUSD Gold Collateral Ratio</div>
-            <div id="kusdgCollateralRatio" class="text-lg font-semibold"> - %</div>
+            <div class="text-gray-600 font-medium">Kusd.btc Supply</div>
+            <div id="kusdBtcSupply" class="text-lg font-semibold">0.00</div>
           </div>
           <div class="flex justify-between">
-            <div class="text-gray-600 font-medium">KUSD Silver Collateral Ratio</div>
-            <div id="kusdsCollateralRatio" class="text-lg font-semibold"> - %</div>
+            <div class="text-gray-600 font-medium">Kusd.koin Collateral Ratio</div>
+            <div id="kusdKoinCollateralRatio" class="text-lg font-semibold"> - %</div>
+          </div>
+          <div class="flex justify-between">
+            <div class="text-gray-600 font-medium">Kusd.eth Collateral Ratio</div>
+            <div id="kusdEthCollateralRatio" class="text-lg font-semibold"> - %</div>
+          </div>
+          <div class="flex justify-between">
+            <div class="text-gray-600 font-medium">Kusd.btc Collateral Ratio</div>
+            <div id="kusdBtcCollateralRatio" class="text-lg font-semibold"> - %</div>
           </div>
           <div class="flex justify-between">
             <div class="text-gray-600 font-medium">Vaults</div>

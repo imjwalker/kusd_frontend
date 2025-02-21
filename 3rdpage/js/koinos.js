@@ -25726,153 +25726,216 @@ exports.tokenAbi = {
             read_only: false,
             entry_point: 0x859facc5,
         },
-        kgGetBalances: {
+        getKoinProtocolBalances: {
             argument: "empty.list_args",
-            return: "empty.kg_protocol_balances",
+            return: "empty.kusd_koin_protocol_balances",
             description: "Get a list of all vault balances",
             read_only: true,
-            entry_point: 0xfc6f58c3,
+            entry_point: 0x01fd5406,
         },
-        kgGetVaults: {
+        getKoinVaults: {
             argument: "empty.list_args",
             return: "empty.addresses",
-            description: "Get a list of all vaults",
+            description: "Get a list of all vault addresses",
             read_only: true,
-            entry_point: 0xf598cebe,
+            entry_point: 0x27a07557,
         },
-        kgGetVault: {
-            argument: "empty.kg_get_vault_args",
-            return: "empty.kg_vaultbalances",
+        getKoinVault: {
+            argument: "empty.get_vault_args",
+            return: "empty.kusd_koin_vaultbalances",
             description: "Get balances of a vault",
             read_only: true,
-            entry_point: 0xe9ffe0e5,
+            entry_point: 0x6be080fe,
         },
-        kgUsd: {
-          argument: "empty.kg_vaultbalances",
-          return: "empty.uint64",
-          description: "Calculate the total USD value of KOIN",
-          read_only: true,
-          entry_point: 0x03cfb712,
-        },
-        kgDeposit: {
-            argument: "empty.kg_deposit_args",
+        depositKoin: {
+            argument: "empty.deposit_args",
             return: "",
             description: "Deposit KOIN as collateral",
             read_only: false,
-            entry_point: 0x3e34fa85,
+            entry_point: 0xc3b9fb78,
         },
-        kgWithdraw: {
-            argument: "empty.kg_withdraw_args",
+        withdrawKoin: {
+            argument: "empty.withdraw_args",
             return: "",
-            description: "Withdraw collateral from a vault",
+            description: "Withdraw KOIN from a vault",
             read_only: false,
-            entry_point: 0x38277a29,
+            entry_point: 0xc26f22db,
         },
-        kgMint: {
+        usdPriceKoin: {
+          argument: "empty.kusd_koin_vaultbalances",
+          return: "empty.uint64",
+          description: "Calculate the usd value of KOIN collateral",
+          read_only: true,
+          entry_point: 0x24072170,
+        },
+        mintKusdKoin: {
             argument: "empty.mint_args",
             return: "",
-            description: "Mint KUSDG",
+            description: "Mint kusd.koin",
             read_only: false,
-            entry_point: 0x182ef922,
+            entry_point: 0xfe3c15d6,
         },
-        kgRepay: {
+        repayKusdKoin: {
             argument: "empty.repay_args",
             return: "",
-            description: "Repay KUSDG",
+            description: "Repay kusd.koin",
             read_only: false,
-            entry_point: 0x6a2e1b56,
+            entry_point: 0x66f49a3a,
         },
-        kgLiquidate: {
+        liquidateKusdKoin: {
             argument: "empty.liquidate_args",
             return: "",
-            description: "Liquidate a vault",
+            description: "Liquidate a KOIN vault",
             read_only: false,
-            entry_point: 0xdca281ec,
+            entry_point: 0xbcd6cc74,
         },
-        ksGetBalances: {
+        getEthProtocolBalances: {
             argument: "empty.list_args",
-            return: "empty.ks_protocol_balances",
+            return: "empty.kusd_eth_protocol_balances",
             description: "Get a list of all vault balances",
             read_only: true,
-            entry_point: 0x095358e4,
+            entry_point: 0xd69ac71c,
         },
-        ksGetVaults: {
+        getEthVaults: {
             argument: "empty.list_args",
             return: "empty.addresses",
-            description: "Get a list of all vaults",
+            description: "Get a list of all vault addresses",
             read_only: true,
-            entry_point: 0x0b91a3ec,
+            entry_point: 0x6eacf75b,
         },
-        ksGetVault: {
-            argument: "empty.ks_get_vault_args",
-            return: "empty.ks_vaultbalances",
+        getEthVault: {
+            argument: "empty.get_vault_args",
+            return: "empty.kusd_eth_vaultbalances",
             description: "Get balances of a vault",
             read_only: true,
-            entry_point: 0xba5ac1a0,
+            entry_point: 0xbdbf0fd2,
         },
-        ksUsd: {
-            argument: "empty.ks_vaultbalances",
-            return: "empty.uint64",
-            description: "Calculate the total USD value of ETH, BTC and KAS",
-            read_only: true,
-            entry_point: 0x2a1cf091,
-        },
-        ksDeposit: {
-            argument: "empty.ks_deposit_args",
+        depositEth: {
+            argument: "empty.deposit_args",
             return: "",
-            description: "Deposit EHT, BTC or KAS as collateral",
+            description: "Deposit Eth as collateral",
             read_only: false,
-            entry_point: 0x96602890,
+            entry_point: 0xc3b9fb78,
         },
-        ksWithdraw: {
-            argument: "empty.ks_withdraw_args",
+        withdrawEth: {
+            argument: "empty.withdraw_args",
             return: "",
-            description: "Withdraw collateral from a vault",
+            description: "Withdraw ETH from a vault",
             read_only: false,
-            entry_point: 0xbd490165,
+            entry_point: 0xc26f22db,
         },
-        ksMint: {
+        mintKusdEth: {
             argument: "empty.mint_args",
             return: "",
-            description: "Mint KUSDS",
+            description: "Mint kusd.eth",
             read_only: false,
-            entry_point: 0xb13c66e5,
+            entry_point: 0xfe3c15d6,
         },
-        ksRepay: {
+        usdPriceEth: {
+            argument: "empty.kusd_eth_vaultbalances",
+            return: "empty.uint64",
+            description: "Calculate the usd value of ETH collateral",
+            read_only: true,
+            entry_point: 0x24072170,
+        },
+        repayKusdEth: {
             argument: "empty.repay_args",
             return: "",
-            description: "Repay KUSDS",
+            description: "Repay kusd.eth",
             read_only: false,
-            entry_point: 0x8dc3e3a6,
+            entry_point: 0x66f49a3a,
         },
-        ksLiquidate: {
+        liquidateKusdEth: {
             argument: "empty.liquidate_args",
             return: "",
-            description: "Liquidate a vault",
+            description: "Liquidate an ETH vault",
             read_only: false,
-            entry_point: 0x6a3e93e9,
+            entry_point: 0xbcd6cc74,
         },
-        get_my_price: {
-            argument: "empty.get_latest_price_arguments",
-            return: "empty.ratio_result",
-            description: "Get price objects",
+        getBtcProtocolBalances: {
+            argument: "empty.list_args",
+            return: "empty.kusd_btc_protocol_balances",
+            description: "Get a list of all vault balances",
             read_only: true,
-            entry_point: 0x1caba674,
+            entry_point: 0x3479c424,
         },
-        get_kap_price: {
-            argument: "empty.get_latest_price_arguments",
+        getBtcVaults: {
+            argument: "empty.list_args",
+            return: "empty.addresses",
+            description: "Get a list of all vault addresses",
+            read_only: true,
+            entry_point: 0x725633ad,
+        },
+        getBtcVault: {
+            argument: "empty.get_vault_args",
+            return: "empty.kusd_btc_vaultbalances",
+            description: "Get balances of a vault",
+            read_only: true,
+            entry_point: 0xba340035,
+        },
+        depositBtc: {
+            argument: "empty.deposit_args",
+            return: "",
+            description: "Deposit Btc as collateral",
+            read_only: false,
+            entry_point: 0xc3b9fb78,
+        },
+        withdrawBtc: {
+            argument: "empty.withdraw_args",
+            return: "",
+            description: "Withdraw Btc from a vault",
+            read_only: false,
+            entry_point: 0xc26f22db,
+        },
+        mintKusdBtc: {
+            argument: "empty.mint_args",
+            return: "",
+            description: "Mint kusd.btc",
+            read_only: false,
+            entry_point: 0xfe3c15d6,
+        },
+        usdPriceBtc: {
+            argument: "empty.kusd_btc_vaultbalances",
+            return: "empty.uint64",
+            description: "Calculate the usd value of a Btc Vault",
+            read_only: true,
+            entry_point: 0x24072170,
+        },
+        repayKusdBtc: {
+            argument: "empty.repay_args",
+            return: "",
+            description: "Repay kusd.btc",
+            read_only: false,
+            entry_point: 0x66f49a3a,
+        },
+        liquidateKusdBtc: {
+            argument: "empty.liquidate_args",
+            return: "",
+            description: "Liquidate a BTC vault",
+            read_only: false,
+            entry_point: 0xbcd6cc74,
+        },
+        getKapPrice: {
+            argument: "empty.get_price_args",
             return: "empty.price_object",
             description: "Get KAP price",
             read_only: true,
             entry_point: 0x1caba674,
         },
-        get_reserves: {
-            argument: "",
-            return: "empty.get_reserves_result",
-            description: "Get KOIN price details",
+        getPrice: {
+            argument: "empty.get_price_args",
+            return: "empty.price_object",
+            description: "Get price from oracle",
             read_only: true,
-            entry_point: 0x6d0c5abf,
-        }
+            entry_point: 0x8d26b6d6,
+        },
+        getRatio: {
+            argument: "empty.get_price_args",
+            return: "empty.ratio_result",
+            description: "Get KOIN price ratio from KoinDX",
+            read_only: true,
+            entry_point: 0x1caba674,
+        },
     },
     types: "CpoICiJrb2lub3MvY29udHJhY3RzL3Rva2VuL3Rva2VuLnByb3RvEhZrb2lub3MuY29udHJhY3RzLnRva2VuGhRrb2lub3Mvb3B0aW9ucy5wcm90byIQCg5uYW1lX2FyZ3VtZW50cyIjCgtuYW1lX3Jlc3VsdBIUCgV2YWx1ZRgBIAEoCVIFdmFsdWUiEgoQc3ltYm9sX2FyZ3VtZW50cyIlCg1zeW1ib2xfcmVzdWx0EhQKBXZhbHVlGAEgASgJUgV2YWx1ZSIUChJkZWNpbWFsc19hcmd1bWVudHMiJwoPZGVjaW1hbHNfcmVzdWx0EhQKBXZhbHVlGAEgASgNUgV2YWx1ZSIYChZ0b3RhbF9zdXBwbHlfYXJndW1lbnRzIi8KE3RvdGFsX3N1cHBseV9yZXN1bHQSGAoFdmFsdWUYASABKARCAjABUgV2YWx1ZSIyChRiYWxhbmNlX29mX2FyZ3VtZW50cxIaCgVvd25lchgBIAEoDEIEgLUYBlIFb3duZXIiLQoRYmFsYW5jZV9vZl9yZXN1bHQSGAoFdmFsdWUYASABKARCAjABUgV2YWx1ZSJeChJ0cmFuc2Zlcl9hcmd1bWVudHMSGAoEZnJvbRgBIAEoDEIEgLUYBlIEZnJvbRIUCgJ0bxgCIAEoDEIEgLUYBlICdG8SGAoFdmFsdWUYAyABKARCAjABUgV2YWx1ZSIRCg90cmFuc2Zlcl9yZXN1bHQiQAoObWludF9hcmd1bWVudHMSFAoCdG8YASABKAxCBIC1GAZSAnRvEhgKBXZhbHVlGAIgASgEQgIwAVIFdmFsdWUiDQoLbWludF9yZXN1bHQiRAoOYnVybl9hcmd1bWVudHMSGAoEZnJvbRgBIAEoDEIEgLUYBlIEZnJvbRIYCgV2YWx1ZRgCIAEoBEICMAFSBXZhbHVlIg0KC2J1cm5fcmVzdWx0IioKDmJhbGFuY2Vfb2JqZWN0EhgKBXZhbHVlGAEgASgEQgIwAVIFdmFsdWUiQAoKYnVybl9ldmVudBIYCgRmcm9tGAEgASgMQgSAtRgGUgRmcm9tEhgKBXZhbHVlGAIgASgEQgIwAVIFdmFsdWUiPAoKbWludF9ldmVudBIUCgJ0bxgBIAEoDEIEgLUYBlICdG8SGAoFdmFsdWUYAiABKARCAjABUgV2YWx1ZSJaCg50cmFuc2Zl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",
     koilib_types: {
@@ -25932,7 +25995,7 @@ exports.tokenAbi = {
                     descending: 1
                   }
                 },
-                kg_get_vault_args: {
+                get_vault_args: {
                   fields: {
                     owner: {
                       type: "bytes",
@@ -25943,7 +26006,7 @@ exports.tokenAbi = {
                     }
                   }
                 },
-                kg_vaultbalances: {
+                kusd_koin_vaultbalances: {
                   fields: {
                     koin: {
                       type: "uint64",
@@ -25952,7 +26015,7 @@ exports.tokenAbi = {
                         jstype: "JS_STRING"
                       }
                     },
-                    kusdgold: {
+                    kusd_koin: {
                       type: "uint64",
                       id: 2,
                       options: {
@@ -25961,16 +26024,16 @@ exports.tokenAbi = {
                     }
                   }
                 },
-                kg_protocol_balances: {
+                kusd_koin_protocol_balances: {
                   fields: {
                     kvb: {
                       rule: "repeated",
-                      type: "kg_vaultbalances",
+                      type: "kusd_koin_vaultbalances",
                       id: 1
                     }
                   }
                 },
-                kg_deposit_args: {
+                deposit_args: {
                   fields: {
                     account: {
                       type: "bytes",
@@ -26035,7 +26098,7 @@ exports.tokenAbi = {
                     }
                   }
                 },
-                kg_withdraw_args: {
+                withdraw_args: {
                   fields: {
                     account: {
                       type: "bytes",
@@ -26132,7 +26195,7 @@ exports.tokenAbi = {
                     }
                   }
                 },
-                ks_vaultbalances: {
+                kusd_eth_vaultbalances: {
                   fields: {
                     eth: {
                       type: "uint64",
@@ -26141,138 +26204,45 @@ exports.tokenAbi = {
                         jstype: "JS_STRING"
                       }
                     },
-                    btc: {
+                    kusd_eth: {
                       type: "uint64",
                       id: 2,
-                      options: {
-                        jstype: "JS_STRING"
-                      }
-                    },
-                    kas: {
-                      type: "uint64",
-                      id: 3,
-                      options: {
-                        jstype: "JS_STRING"
-                      }
-                    },
-                    kusdsilver: {
-                      type: "uint64",
-                      id: 4,
                       options: {
                         jstype: "JS_STRING"
                       }
                     }
                   }
                 },
-                ks_protocol_balances: {
+                kusd_eth_protocol_balances: {
                   fields: {
                     kvb: {
                       rule: "repeated",
-                      type: "ks_vaultbalances",
+                      type: "kusd_eth_vaultbalances",
                       id: 1
                     }
                   }
                 },
-                ks_get_vault_args: {
+                kusd_btc_protocol_balances: {
                   fields: {
-                    owner: {
-                      type: "bytes",
-                      id: 1,
-                      options: {
-                        "(koinos.btype)": "ADDRESS"
-                      }
+                    kvb: {
+                      rule: "repeated",
+                      type: "kusd_btc_vaultbalances",
+                      id: 1
                     }
                   }
                 },
-                ks_deposit_args: {
+                kusd_btc_vaultbalances: {
                   fields: {
-                    account: {
-                      type: "bytes",
-                      id: 1,
-                      options: {
-                        "(koinos.btype)": "ADDRESS"
-                      }
-                    },
-                    collateral: {
-                      type: "uint32",
-                      id: 2
-                    },
-                    amount: {
+                    btc: {
                       type: "uint64",
-                      id: 3,
+                      id: 1,
                       options: {
                         jstype: "JS_STRING"
                       }
                     },
-                    fee : {
-                      type: "uint32",
-                      id: 4
-                    },
-                    fee_address: {
-                      type: "bytes",
-                      id: 5,
-                      options: {
-                        "(koinos.btype)": "ADDRESS"
-                      }
-                    }
-                  }
-                },
-                ks_withdraw_args: {
-                  fields: {
-                    account: {
-                      type: "bytes",
-                      id: 1,
-                      options: {
-                        "(koinos.btype)": "ADDRESS"
-                      }
-                    },
-                    collateral: {
-                      type: "uint32",
-                      id: 2
-                    },
-                    amount: {
-                      type: "uint64",
-                      id: 3,
-                      options: {
-                        jstype: "JS_STRING"
-                      }
-                    }
-                  }
-                },
-                get_latest_price_arguments: {
-                  fields: {
-                    tokenAddress: {
-                      type: "bytes",
-                      id: 1,
-                      options: {
-                        "(koinos.btype)": "ADDRESS"
-                      }
-                    }
-                  }
-                },
-                get_reserves_result: {
-                  fields: {
-                    k_last: {
-                      type: "string",
-                      id: 1,
-                    },
-                    reserve_a: {
+                    kusd_btc: {
                       type: "uint64",
                       id: 2,
-                      options: {
-                        jstype: "JS_STRING"
-                      }
-                    },
-                    reserve_b: {
-                      type: "uint64",
-                      id: 3,
-                      options: {
-                        jstype: "JS_STRING"
-                      }
-                    },
-                    block_time: {
-                      type: "uint64",
-                      id: 4,
                       options: {
                         jstype: "JS_STRING"
                       }

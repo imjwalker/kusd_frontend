@@ -16,59 +16,74 @@ let connectedAccount;
 let koinBalance = 0;
 let ethBalance = 0;
 let btcBalance = 0;
-let kasBalance = 0;
-let kgBalance = 0;
-let ksBalance = 0;
-let kgCV = 0;
-let ksCV = 0;
-let kgCR = 0;
-let ksCR = 0;
+let kusdKoinCV = 0;
+let kusdEthCV = 0;
+let kusdBtcCV = 0;
+
+let kusdKoinBalance = 0;
+let kusdEthBalance = 0;
+let kusdBtcBalance = 0;
+let kusdKoinCR = 0;
+let kusdEthCR = 0;
+let kusdBtcCR = 0;
 
 let tvl = 0;
-let kgTVL = 0;
-let ksTVL = 0;
-let kgSupply = 0;
-let ksSupply = 0;
-let kgGCR = 0;
-let ksGCR = 0;
+let kusdKoinTVL = 0;
+let kusdEthTVL = 0;
+let kusdBtcTVL = 0;
+let kusdKoinSupply = 0;
+let kusdEthSupply = 0;
+let kusdBtcSupply = 0;
+let kusdKoinGCR = 0;
+let kusdEthGCR = 0;
+let kusdBtcGCR = 0;
 
-let kgContract;
-let ksContract;
+let kusdKoinContract;
+let kusdEthContract;
+let kusdBtcContract;
 
 let kapPrice = 0;
+let koindxPrice = 0;
 let koinPrice = 0;
 let ethPrice = 0;
 let btcPrice = 0;
-let kasPrice = 0;
-let kPrice = 0;
 
 let vaultCount = 0;
-let kgVaults = [];
-let ksVaults = [];
+let Vaults = [];
+let kusdKoinVaults = [];
+let kusdEthVaults = [];
+let kusdBtcVaults = [];
 
-
-function greet() {
-  console.log('hello');
-}
+// kusd.koinos: 1Gw94xnZ6LjhLg1FV5dF7xPxq7FMVnNn78 - 166BxNmWGuZHYAVHCeh6D8i7XF5qX21kGT
+// kusd.eth: 1LED2nYrLZUmm4KvruFK3GdQ3DJJSDuky7 - 1LBctrVzWGddqzDXJJC8WJm4ax69U5w8AJ
+// kusd.btc: 1GMYEfx5vzCoctpLuBXpEkfr1MunSmhJTs - 1DsZs1UVEHBEWv4MSwLksM8yEbjDWUS1Ey
 
 async function displayTVL() {
 
-  kgContract = new Contract({
+  kusdKoinContract = new Contract({
     id: "166BxNmWGuZHYAVHCeh6D8i7XF5qX21kGT",
     abi: utils.tokenAbi,
     provider: kondor.provider,
   }).functions;
 
-  ksContract = new Contract({
+  kusdEthContract = new Contract({
     id: "1LBctrVzWGddqzDXJJC8WJm4ax69U5w8AJ",
     abi: utils.tokenAbi,
     provider: kondor.provider,
   }).functions;
+
+  kusdBtcContract = new Contract({
+    id: "1DsZs1UVEHBEWv4MSwLksM8yEbjDWUS1Ey",
+    abi: utils.tokenAbi,
+    provider: kondor.provider,
+  }).functions;
+
   
   await getPrices();
   await getVaultsInfo();
   getProtocolStats();
   console.log(tvl);
+
   tvlBox.textContent = `Total Value Locked: $${formatBalance(tvl, 2)}`;
   tvlBox.classList.add('visible');
 }
@@ -77,7 +92,6 @@ async function displayTVL() {
 //// Connect and disconnect functionality ////
 async function connect() {
 
-  
     if (connectedAccount == undefined) {
       await getAccounts();
 
@@ -114,14 +128,20 @@ async function getAccounts() {
       document.getElementById('loadingSquare').hidden = false;
       connectedAccount = accounts[0].address;
 
-      kgContract = new Contract({
+      kusdKoinContract = new Contract({
         id: "166BxNmWGuZHYAVHCeh6D8i7XF5qX21kGT",
         abi: utils.tokenAbi,
         provider: kondor.provider,
       }).functions;
 
-      ksContract = new Contract({
+      kusdEthContract = new Contract({
         id: "1LBctrVzWGddqzDXJJC8WJm4ax69U5w8AJ",
+        abi: utils.tokenAbi,
+        provider: kondor.provider,
+      }).functions;
+
+      kusdBtcContract = new Contract({
+        id: "1DsZs1UVEHBEWv4MSwLksM8yEbjDWUS1Ey",
         abi: utils.tokenAbi,
         provider: kondor.provider,
       }).functions;
@@ -174,12 +194,12 @@ function updateActionBox(buttonId) {
     actionBox.classList.remove('hidden');
     typeSelect.innerHTML = '<option value="" disabled selected>Select Type</option>';
     if (buttonId === 'depositBtn' || buttonId === 'withdrawBtn') {
-      const options = ['KOIN', 'ETH', 'BTC', 'KAS'];
+      const options = ['KOIN', 'ETH', 'BTC'];
       options.forEach(option => {
           typeSelect.innerHTML += `<option value="${option}">${option}</option>`;
       });
     } else if (buttonId === 'mintBtn' || buttonId === 'repayBtn') {
-      const options = ['KUSDG', 'KUSDS'];
+      const options = ['Kusd.koin', 'Kusd.eth', 'Kusd.btc'];
       options.forEach(option => {
           typeSelect.innerHTML += `<option value="${option}">${option}</option>`;
       });
@@ -199,10 +219,11 @@ function highlightButton(button) {
 
 // Handle submit action
 document.getElementById('submitAction').addEventListener('click', () => {
+
     const token = document.getElementById('token').value;
     const amount = document.getElementById('amount').value;
 
-    if (canBroadcast == true && !isNaN(amount) && amount !== '' && (token == 'KOIN' || token == 'ETH' || token == 'BTC' || token == 'KAS')) {
+    if (canBroadcast == true && !isNaN(amount) && amount !=='' && token !=='') {
       switch(activeButton) {
         case document.getElementById("depositBtn"):
           manageVault("deposit", token, amount);
@@ -223,6 +244,7 @@ document.getElementById('submitAction').addEventListener('click', () => {
 document.getElementById('amount').addEventListener('input', checkInput);
 document.getElementById('token').addEventListener('change', checkInput);
 
+
 function checkInput() {
   let amountValue = document.getElementById('amount').value;
   let tokenValue = document.getElementById('token').value;
@@ -230,19 +252,18 @@ function checkInput() {
 
   if (activeButton == document.getElementById('depositBtn')) {
     if (amountValue !== "" && !isNaN(amountValue) && tokenValue !== "" ) {
-      submitTextEl.textContent = `Deposit fee (0.3%): ${parseFloat((amountValue * 0.003).toFixed(6))} ${tokenValue}`;
+      submitTextEl.textContent = `Deposit fee (0.5%): ${parseFloat((amountValue * 0.005).toFixed(6))} ${tokenValue}`;
       canBroadcast = true;
     } else {
       canBroadcast = false;
     }
-  } 
+  }
 
   if (activeButton == document.getElementById('withdrawBtn')){
     if (
       tokenValue == 'KOIN' && amountValue > koinBalance || 
       tokenValue == 'ETH' && amountValue > ethBalance ||
-      tokenValue == 'BTC' && amountValue > btcBalance ||
-      tokenValue == 'KAS' && amountValue > kasBalance) {
+      tokenValue == 'BTC' && amountValue > btcBalance) {
         submitTextEl.textContent = 'Exceeds withdrawal limit';
         canBroadcast = false;
     } else {
@@ -251,11 +272,12 @@ function checkInput() {
   }
 
   if (activeButton == document.getElementById('mintBtn')) {
-    submitTextEl.textContent = `Minimum amount to mint is 1 ${tokenValue}`;
-    if (tokenValue == 'KUSDG' && (kgBalance + parseFloat(amountValue)) * 1.10 > kgCV) {
+    if ((tokenValue == 'Kusd.koin' && (kusdKoinBalance + parseFloat(amountValue)) * 1.10 > kusdKoinCV) 
+      || (tokenValue == 'Kusd.eth' && (kusdEthBalance + parseFloat(amountValue)) * 1.10 > kusdEthCV)
+      || (tokenValue == 'Kusd.btc' && (kusdBtcBalance + parseFloat(amountValue)) * 1.10 > kusdBtcCV)) {
       submitTextEl.textContent = 'Exceeds 110% collateral ratio limit';
       canBroadcast = false;
-    } else if (amountValue < 1) {
+    } else if (!isNaN(amountValue) && amountValue !== "" && amountValue < 1) {
       submitTextEl.textContent = `Minimum amount to mint is 1 ${tokenValue}`;
       canBroadcast = false;
     } else {
@@ -264,11 +286,12 @@ function checkInput() {
   }
 
   if (activeButton == document.getElementById('repayBtn')) {
-    submitTextEl.textContent = `Minimum amount to repay is 1 ${tokenValue}`;
-    if (tokenValue == 'KUSDG' && amountValue > kgBalance || tokenValue == 'KUSDS' && amountValue > ksBalance) {
+    if (tokenValue == 'Kusd.koin' && amountValue > kusdKoinBalance 
+      || tokenValue == 'Kusd.eth' && amountValue > kusdEthBalance
+      || tokenValue == 'Kusd.btc' && amountValue > kusdBtcBalance) {
       submitTextEl.textContent = 'Exceeds repay limit';
       canBroadcast = false;
-    } else if (amountValue < 1) {
+    } else if (!isNaN(amountValue) && amountValue !== "" && amountValue < 1) {
       submitTextEl.textContent = `Minimum amount to repay is 1 ${tokenValue}`;
       canBroadcast = false;
     } else {
@@ -284,6 +307,7 @@ function showNotification(notificationText) {
     document.getElementById("notificationText").textContent = notificationText;
 }
 
+
 //// Update interface functionality ////
 
 function resetBalances() {
@@ -291,33 +315,42 @@ function resetBalances() {
     koinBalance = 0;
     ethBalance = 0;
     btcBalance = 0;
-    kasBalance = 0;
-    kgBalance = 0;
-    ksBalance = 0;
-    kgCV = 0;
-    ksCV = 0;
-    kgCR = 0;
-    ksCR = 0;
+    kusdKoinBalance = 0;
+    kusdEthBalance = 0;
+    kusdBtcBalance = 0;
+
+    kusdKoinCV = 0;
+    kusdEthCV = 0;
+    kusdBtcCV = 0;
+    kusdKoinCR = 0;
+    kusdEthCR = 0;
+    kusdBtcCR = 0;
 
     updateBalances();
 }
 
 function updateBalances() {
+
     document.getElementById('koinBalance').textContent = parseFloat(koinBalance.toFixed(4));
-    document.getElementById('kusdgBalance').textContent = parseFloat(kgBalance.toFixed(2));
+    document.getElementById('kusdKoinBalance').textContent = parseFloat(kusdKoinBalance.toFixed(2));
 
     document.getElementById('ethBalance').textContent = parseFloat(ethBalance.toFixed(6));
+    document.getElementById('kusdEthBalance').textContent = parseFloat(kusdEthBalance.toFixed(2));
+
     document.getElementById('btcBalance').textContent = parseFloat(btcBalance.toFixed(8));
-    document.getElementById('kasBalance').textContent = parseFloat(kasBalance.toFixed(4));
-    document.getElementById('kusdsBalance').textContent = parseFloat(ksBalance.toFixed(2));
+    document.getElementById('kusdBtcBalance').textContent = parseFloat(kusdBtcBalance.toFixed(2));
 
-    (kgBalance == 0) ? kgCR = " - " : kgCR = (kgCV / kgBalance * 100).toFixed(2); 
-    (ksBalance == 0) ? ksCR = " - " : ksCR = (ksCV / ksBalance * 100).toFixed(2); 
+    (kusdKoinBalance == 0) ? kusdKoinCR = " - " : kusdKoinCR = (kusdKoinCV / kusdKoinBalance * 100).toFixed(2);
+    (kusdEthBalance == 0) ? kusdEthCR = " - " : kusdEthCR = (kusdEthCV / kusdEthBalance * 100).toFixed(2);
+    (kusdBtcBalance == 0) ? kusdBtcCR = " - " : kusdBtcCR = (kusdBtcCV / kusdBtcBalance * 100).toFixed(2);
 
-    document.getElementById("kusdgCV").textContent = `$ ${kgCV.toFixed(2)}`;
-    document.getElementById("kusdsCV").textContent = `$ ${ksCV.toFixed(2)}`;
-    document.getElementById("kusdgCR").textContent = `${kgCR}%`;
-    document.getElementById("kusdsCR").textContent = `${ksCR}%`;
+    document.getElementById("kusdKoinCV").textContent = `$ ${kusdKoinCV.toFixed(2)}`;
+    document.getElementById("kusdEthCV").textContent = `$ ${kusdEthCV.toFixed(2)}`;
+    document.getElementById("kusdBtcCV").textContent = `$ ${kusdBtcCV.toFixed(2)}`;
+
+    document.getElementById("kusdKoinCR").textContent = `${kusdKoinCR}%`;
+    document.getElementById("kusdEthCR").textContent = `${kusdEthCR}%`;
+    document.getElementById("kusdBtcCR").textContent = `${kusdBtcCR}%`;
 }
 
 function formatBalance(num, decimals) {
@@ -325,27 +358,38 @@ function formatBalance(num, decimals) {
 }
 
 function resetProtocolStats() {
+
     tvl = 0;
-    kgTVL = 0;
-    ksTVL = 0;
-    kgSupply = 0;
-    ksSupply = 0;
-    kgGCR = 0;
-    ksGCR = 0;
+    kusdKoinTVL = 0;
+    kusdEthTVL = 0;
+    kusdBtcTVL = 0;
+    kusdKoinSupply = 0;
+    kusdEthSupply = 0;
+    kusdBtcSupply = 0;
+    kusdKoinGCR = 0;
+    kusdEthGCR = 0;
+    kusdBtcGCR = 0;
+
     vaultCount = 0;
-    kgVaults = [];
-    ksVaults = [];
+    kusdKoinVaults = [];
+    kusdEthVaults = [];
+    kusdBtcVaults = [];
+
 }
 
 async function updateProtocolStats() {
-    document.getElementById("kusdgSupply").textContent = formatNum(kgSupply);
-    document.getElementById("kusdsSupply").textContent = formatNum(ksSupply);
+    document.getElementById("kusdKoinSupply").textContent = formatNum(kusdKoinSupply);
+    document.getElementById("kusdEthSupply").textContent = formatNum(kusdEthSupply);
+    document.getElementById("kusdBtcSupply").textContent = formatNum(kusdBtcSupply);
     document.getElementById("vaultCount").textContent = vaultCount;
 
-    (kgSupply == 0) ? kgGCR = " - " : kgGCR = (kgTVL / kgSupply * 100).toFixed(2);
-    (ksSupply == 0) ? ksGCR = " - " : ksGCR = (ksTVL / ksSupply * 100).toFixed(2);
-    document.getElementById('kusdgCollateralRatio').textContent = `${kgGCR}%`;
-    document.getElementById('kusdsCollateralRatio').textContent = `${ksGCR}%`;
+    (kusdKoinSupply == 0) ? kusdKoinGCR = " - " : kusdKoinGCR = (kusdKoinTVL / kusdKoinSupply * 100).toFixed(2);
+    (kusdEthSupply == 0) ? kusdEthGCR = " - " : kusdEthGCR = (kusdEthTVL / kusdEthSupply * 100).toFixed(2);
+    (kusdBtcSupply == 0) ? kusdBtcGCR = " - " : kusdBtcGCR = (kusdBtcTVL / kusdBtcSupply * 100).toFixed(2);
+
+    document.getElementById('kusdKoinCollateralRatio').textContent = `${kusdKoinGCR}%`;
+    document.getElementById('kusdEthCollateralRatio').textContent = `${kusdEthGCR}%`;
+    document.getElementById('kusdBtcCollateralRatio').textContent = `${kusdBtcGCR}%`;
     
     document.getElementById('totalTVL').textContent = `$${formatNum(tvl)}`;
 }
@@ -354,9 +398,9 @@ function formatNum(num) {
     return num.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
-// get asset prices from KoinDX (currently with price object workaround)
+// get asset prices from oracles and KoinDX
 async function getPrices() {
-    // get KAP oracle
+    // get KAP oracle price
     try {      
       const kapContract = new Contract({
           id: "13PXvxWLMyi4dAd6uS1SehNNFryvFyygnD",
@@ -364,80 +408,62 @@ async function getPrices() {
           provider: kondor.provider,
       }).functions;
 
-      const { operation, result } = await kapContract.get_kap_price({
-          tokenAddress: '1Mzp89UMsSh6Fiy4ZEVvTKsmxUYpoJ3emH'
+      const { operation, result } = await kapContract.getKapPrice({
+        token_address: '1Mzp89UMsSh6Fiy4ZEVvTKsmxUYpoJ3emH'
       });
       kapPrice = result.price / 100000000;
-      console.log('KAP price: ', kapPrice);
-    
+
     } catch (error) {
       console.log(error);
     }
     // get KoinDX KOIN price
     try {
-      const priceObjects = new Contract({
+      const koindxContract = new Contract({
           id: "15EDfz9ZdepDSV1ERoe8LXN9dvT7X7qMk1",
           abi: utils.tokenAbi,
           provider: kondor.provider,
       }).functions;
 
-      const { operation, result } = await priceObjects.get_my_price({
-        tokenAddress: '1PWNYq8aF6rcKd4of59FEeSEKmYifCyoJc'
+      const { operation, result } = await koindxContract.getRatio({
+        token_address: '1PWNYq8aF6rcKd4of59FEeSEKmYifCyoJc'
       });
-      koinPrice = result.token_b / result.token_a;
-      console.log('KOIN price: ', koinPrice);
+      koindxPrice = result.token_b / result.token_a;
     
     } catch (error) {
       console.log(error);
     }
-
-    // get KoinDX ETH price --> priceObjects instead
+    (koindxPrice > kapPrice) ? koinPrice = koindxPrice : koinPrice = kapPrice;
+    console.log('KOIN price: ', koinPrice);
+    // get Eth price oracle
     try {
-      const priceObjects = new Contract({
-          id: "15EDfz9ZdepDSV1ERoe8LXN9dvT7X7qMk1",
+      const ethOracle = new Contract({
+          id: "1yM6RU23yJTAFWSYpTjn7dUbcWgY5P1HY",
           abi: utils.tokenAbi,
           provider: kondor.provider,
       }).functions;
 
-      const { operation, result } = await priceObjects.get_my_price({
-         tokenAddress: '17mY5nkRwW4cpruxmavBaTMfiV3PUC8mG7'
+      const { operation, result } = await ethOracle.getPrice({
+        token_address: '15twURbNdh6S7GVXhqVs6MoZAhCfDSdoyd'
       });
-      ethPrice = result.token_b / result.token_a;
+      ethPrice = result.price / 100000000;
       console.log('ETH price: ', ethPrice);
     
     } catch (error) {
       console.log(error);
     }
-    // get KoinDX BTC price ----> price objects instead
+    // get Btc price oracle
     try {
-      const priceObjects = new Contract({
-          id: "15EDfz9ZdepDSV1ERoe8LXN9dvT7X7qMk1",
+      const btcOracle = new Contract({
+          id: "1yM6RU23yJTAFWSYpTjn7dUbcWgY5P1HY",
           abi: utils.tokenAbi,
           provider: kondor.provider,
       }).functions;
 
-      const { operation, result } = await priceObjects.get_my_price({
-        tokenAddress: '1PMyipr6DmecFezR3Z6wLheNznK76yuSat'
+      const { operation, result } = await btcOracle.getPrice({
+        token_address: '15zQzktjXHPRstPYB9dqs6jUuCUCVvMGB9'
       });
-      btcPrice = result.token_b / result.token_a;
+      btcPrice = result.price / 100000000;
       console.log('BTC price: ', btcPrice);
-    
-    } catch (error) {
-      console.log(error);
-    }
-    // get KoinDX KAS price -----> price objects instead
-    try {
-      const priceObjects = new Contract({
-          id: "15EDfz9ZdepDSV1ERoe8LXN9dvT7X7qMk1",
-          abi: utils.tokenAbi,
-          provider: kondor.provider,
-      }).functions;
-
-      const { operation, result } = await priceObjects.get_my_price({
-        tokenAddress: '1Nu8U85SLvLHimTYLGVH2Qha5uoDuWm6mm'
-      });
-      kasPrice = result.token_b / result.token_a;
-      console.log('KAS price: ', kasPrice);
     
     } catch (error) {
       console.log(error);
@@ -447,39 +473,41 @@ async function getPrices() {
 
 // initialize protocol statistics
 async function getProtocolStats() {
+
     let totalKoin = 0;
     let totalEth = 0;
     let totalBtc = 0;
-    let totalKas = 0;
 
-    (koinPrice > kapPrice) ? kPrice = koinPrice : kPrice = kapPrice;
+    (koindxPrice > kapPrice) ? koinPrice = koindxPrice : koinPrice = kapPrice;
 
-    kgVaults.forEach(vault => {
+    kusdKoinVaults.forEach(vault => {
         vaultCount++;
-        console.log(vault[1]);
         totalKoin += +vault[1].koin || 0;
-        kgSupply += +vault[1].kusdgold || 0;
+        kusdKoinSupply += +vault[1].kusd_koin || 0;
     });
 
-    ksVaults.forEach(vault => {
+    kusdEthVaults.forEach(vault => {
         vaultCount++;
-        console.log(vault[1]);
         totalEth += +vault[1].eth || 0;
-        totalBtc += +vault[1].btc || 0;
-        totalKas += +vault[1].kas || 0;
-        ksSupply += +vault[1].kusdsilver || 0;
+        kusdEthSupply += +vault[1].kusd_eth || 0;
     });
 
-    totalKoin ? kgTVL = (totalKoin / 100000000 * kPrice) : kgTVL = 0;
-    tvl += kgTVL;
+    kusdBtcVaults.forEach(vault => {
+        vaultCount++;
+        totalBtc += +vault[1].btc || 0;
+        kusdBtcSupply += +vault[1].kusd_btc || 0;
+    });
 
-    totalEth ? ksTVL += (totalEth / 100000000 * ethPrice) : ksTVL;
-    totalBtc ? ksTVL += (totalBtc / 100000000 * btcPrice) : ksTVL;
-    totalKas ? ksTVL += (totalKas / 100000000 * kasPrice) : ksTVL;
-    tvl += ksTVL;
+    totalKoin ? kusdKoinTVL = (totalKoin / 100000000 * koinPrice) : kusdKoinTVL = 0;
+    tvl += kusdKoinTVL;
+    totalEth ? kusdEthTVL = (totalEth / 100000000 * ethPrice) : kusdEthTVL = 0;
+    tvl += kusdEthTVL;
+    totalBtc ? kusdBtcTVL += (totalBtc / 100000000 * btcPrice) : kusdBtcTVL = 0;
+    tvl += kusdBtcTVL;
 
-    isNaN(kgSupply) ? kgSupply = 0 : kgSupply /= 100000000;
-    isNaN(ksSupply) ? ksSupply = 0 : ksSupply /= 100000000;
+    isNaN(kusdKoinSupply) ? kusdKoinSupply = 0 : kusdKoinSupply /= 100000000;
+    isNaN(kusdEthSupply) ? kusdEthSupply = 0 : kusdEthSupply /= 100000000;
+    isNaN(kusdBtcSupply) ? kusdBtcSupply = 0 : kusdBtcSupply /= 100000000;
 }
 
 
@@ -487,57 +515,126 @@ async function getProtocolStats() {
 
 // get data from all vaults
 async function getVaultsInfo() {
-    const operations = [
-      { contract: kgContract, getVaults: 'kgGetVaults', getBalances: 'kgGetBalances', vaults: kgVaults },
-      { contract: ksContract, getVaults: 'ksGetVaults', getBalances: 'ksGetBalances', vaults: ksVaults }
-    ];
-  
-    for (let { contract, getVaults, getBalances, vaults } of operations) {
-      try {
-        let { operation, result } = await contract[getVaults]({ limit: 1000 });
-        if (result) vaults.push(...result.accounts.map(account => [account]));
-  
-        ({ result } = await contract[getBalances]({ limit: 1000 }));
-        if (result) result.kvb.forEach((balance, i) => vaults[i].push(balance));
-        
-      } catch (error) {
-        console.log(error);
+
+    try {
+      let { operation, result } = await kusdKoinContract.getKoinVaults({
+        limit: 1000
+      });
+      if (result) {
+        result.accounts.forEach((account) => {
+          kusdKoinVaults.push([account]);
+        });
       }
+
+      ({ result } = await kusdKoinContract.getKoinProtocolBalances({
+        limit: 1000
+      }));
+      if (result) {
+        result.kvb.forEach((account, i) => {
+          kusdKoinVaults[i].push(account);
+        });
+      }
+      console.log(kusdKoinVaults);
+
+    } catch (error) {
+      console.log(error);
     }
+
+    try {
+      let { operation, result } = await kusdEthContract.getEthVaults({
+        limit: 1000
+      });
+      if (result) {
+        result.accounts.forEach((account) => {
+          kusdEthVaults.push([account]);
+        });
+      }
+
+      ({ result } = await kusdEthContract.getEthProtocolBalances({
+        limit: 1000
+      }));
+      if (result) {
+        result.kvb.forEach((account, i) => {
+          kusdEthVaults[i].push(account);
+        });
+      }
+      console.log(kusdEthVaults);
+
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+      let { operation, result } = await kusdBtcContract.getBtcVaults({
+        limit: 1000
+      });
+      if (result) {
+        result.accounts.forEach((account) => {
+          kusdBtcVaults.push([account]);
+        });
+      }
+
+      ({ result } = await kusdBtcContract.getBtcProtocolBalances({
+        limit: 1000
+      }));
+      if (result) {
+        result.kvb.forEach((account, i) => {
+          kusdBtcVaults[i].push(account);
+        });
+      }
+      console.log(kusdBtcVaults);
+
+    } catch (error) {
+      console.log(error);
+    } 
+
 }
 
 // Get the balances of the user's vault
-async function getVaultBalances() { // usd value contract call nog aanpassen
-    // get KUSDG, KOIN balances
+async function getVaultBalances() {
+    // get Koin, kusd.koin balances
     try {
-      const { operation, result } = await kgContract.kgGetVault({
+      const { operation, result } = await kusdKoinContract.getKoinVault({
         owner: connectedAccount,
       })
+      console.log(result);
       if (result == undefined) {
-        koinBalance = 0, kgBalance = 0, kgCV = 0;
+        koinBalance = 0, kusdKoinBalance = 0, kusdKoinCV = 0;
       } else {
         result.koin == undefined ? koinBalance = 0 : koinBalance = result.koin / 100000000;
-        result.kusdgold == undefined ? kgBalance = 0 : kgBalance = result.kusdgold / 100000000;
-
-        (koinPrice > kapPrice) ? kPrice = koinPrice : kPrice = kapPrice;
-        kgCV = koinBalance * kPrice;
+        result.kusd_koin == undefined ? kusdKoinBalance = 0 : kusdKoinBalance = result.kusd_koin / 100000000;
+        kusdKoinCV = koinBalance * koinPrice;
       }
     } catch (error) {
       console.error(error);
     }
-    // get KUSDS, ETH, BTC, KAS balances
+    // get Eth, kusd.eth balances
     try {
-      const { operation, result } = await ksContract.ksGetVault({
+      const { operation, result } = await kusdEthContract.getEthVault({
+        owner: connectedAccount,
+      })
+      console.log(result);
+      if (result == undefined) {
+        ethBalance = 0, kusdEthBalance = 0, kusdEthCV = 0;
+      } else {
+        result.eth == undefined ? ethBalance = 0 : ethBalance = result.eth / 100000000;
+        result.kusd_eth == undefined ? kusdEthBalance = 0 : kusdEthBalance = result.kusd_eth / 100000000;
+        kusdEthCV = ethBalance * ethPrice;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+    // get Btc, kusd.btc balances
+    try {
+      const { operation, result } = await kusdBtcContract.getBtcVault({
         owner: connectedAccount,
       })
       if (result == undefined) {
-        ethBalance = 0, btcBalance = 0, kasBalance = 0, ksBalance = 0, ksCV = 0;
+        btcBalance = 0, kusdBtcBalance = 0, kusdBtcCV = 0;
       } else {
-        result.eth == undefined ? ethBalance = 0 : ethBalance = result.eth / 100000000;
         result.btc == undefined ? btcBalance = 0 : btcBalance = result.btc / 100000000;
-        result.kas == undefined ? kasBalance = 0 : kasBalance = result.kas / 100000000;
-        result.kusdsilver == undefined ? ksBalance = 0 : ksBalance = result.kusdsilver / 100000000;
-        ksCV = ethBalance * ethPrice + btcBalance * btcPrice + kasBalance * kasPrice;
+        result.kusd_btc == undefined ? kusdBtcBalance = 0 : kusdBtcBalance = result.kusd_btc / 100000000;
+        kusdBtcCV = btcBalance * btcPrice;
       }
     } catch (error) {
       console.error(error);
@@ -548,23 +645,147 @@ async function getVaultBalances() { // usd value contract call nog aanpassen
 // Send a transaction
 async function manageVault(action, token, amount) {
     console.log(action, token, amount);
-    
-    const contractDetails = {
-        KUSDG: { id: "166BxNmWGuZHYAVHCeh6D8i7XF5qX21kGT", functions: { deposit: "kgDeposit", withdraw: "kgWithdraw", mint: "kgMint", repay: "kgRepay" } },
-        KUSDS: { id: "1LBctrVzWGddqzDXJJC8WJm4ax69U5w8AJ", functions: { deposit: "ksDeposit", withdraw: "ksWithdraw", mint: "ksMint", repay: "ksRepay" }, collateralID: { ETH: 0, BTC: 1, KAS: 2 } }
-    };
-    
-    const { id, functions, collateralID } = contractDetails[token === "KOIN" || token === "KUSDG" ? "KUSDG" : "KUSDS"];
-    const contract = new Contract({ id, abi: utils.tokenAbi, provider: kondor.provider, signer: kondor.getSigner(connectedAccount) }).functions;
-    
-    try {
-        const params = { account: connectedAccount, amount: utils.parseUnits(amount, 8) };
-        if (collateralID) params.collateral = collateralID[token];
-        if (action === "deposit" || action === "withdraw") params.fee = 3, params.fee_address = "1Mzp89UMsSh6Fiy4ZEVvTKsmxUYpoJ3emH";
-        const { transaction, receipt } = await contract[functions[action]](params);
 
-        await log(transaction, receipt);
+    try {
+      if (token == "KOIN" || token == "Kusd.koin") {
+        const contract = new Contract({ 
+          id: "166BxNmWGuZHYAVHCeh6D8i7XF5qX21kGT",
+          abi: utils.tokenAbi, 
+          provider: kondor.provider, 
+          signer: kondor.getSigner(connectedAccount)
+        }).functions;
+  
+        if (action == "deposit") {
+          const { transaction, receipt } = await contract.depositKoin({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8),
+            fee: 5,
+            fee_address: "1Mzp89UMsSh6Fiy4ZEVvTKsmxUYpoJ3emH"
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "mint") {
+          const { transaction, receipt } = await contract.mintKusdKoin({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "withdraw") {
+          const { transaction, receipt } = await contract.withdrawKoin({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "repay") {
+          const { transaction, receipt } = await contract.repayKusdKoin({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        }
+  
+      } else if (token == "ETH" || token == "Kusd.eth") {
+        const contract = new Contract({ 
+          id: "1LBctrVzWGddqzDXJJC8WJm4ax69U5w8AJ",
+          abi: utils.tokenAbi, 
+          provider: kondor.provider, 
+          signer: kondor.getSigner(connectedAccount)
+        }).functions;
+        
+        if (action == "deposit") {
+          const { transaction, receipt } = await contract.depositEth({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8),
+            fee: 5,
+            fee_address: "1Mzp89UMsSh6Fiy4ZEVvTKsmxUYpoJ3emH"
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "mint") {
+          const { transaction, receipt } = await contract.mintKusdEth({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "withdraw") {
+          const { transaction, receipt } = await contract.withdrawEth({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "repay") {
+          const { transaction, receipt } = await contract.repayKusdEth({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        }
+  
+      } else if (token == "BTC" || token == "Kusd.btc") {
+        const contract = new Contract({ 
+          id: "1DsZs1UVEHBEWv4MSwLksM8yEbjDWUS1Ey",
+          abi: utils.tokenAbi, 
+          provider: kondor.provider, 
+          signer: kondor.getSigner(connectedAccount)
+        }).functions;
+        
+        if (action == "deposit") {
+          const { transaction, receipt } = await contract.depositBtc({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8),
+            fee: 5,
+            fee_address: "1Mzp89UMsSh6Fiy4ZEVvTKsmxUYpoJ3emH"
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "mint") {
+          const { transaction, receipt } = await contract.mintKusdBtc({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "withdraw") {
+          const { transaction, receipt } = await contract.withdrawBtc({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        } else if (action == "repay") {
+          const { transaction, receipt } = await contract.repayKusdBtc({
+            account: connectedAccount,
+            amount: utils.parseUnits(amount, 8)
+          });      
+          console.log(transaction, receipt);
+          await log(transaction, receipt);
+  
+        }
+      }
+        
         getVaultBalances();
+
+        document.getElementById('token').innerHTML = '<option value="" disabled selected>Select Type</option>';
+        document.getElementById('amount').value = '';
+        submitTextEl. textContent = '';
+
         await resetProtocolStats();
         await getVaultsInfo();
         await getProtocolStats();
@@ -576,24 +797,53 @@ async function manageVault(action, token, amount) {
     }
 }
     
+    // kusd.koin: 1Gw94xnZ6LjhLg1FV5dF7xPxq7FMVnNn78 - 166BxNmWGuZHYAVHCeh6D8i7XF5qX21kGT
+    // kusd.eth: 1LED2nYrLZUmm4KvruFK3GdQ3DJJSDuky7 - 1LBctrVzWGddqzDXJJC8WJm4ax69U5w8AJ
+    // kusd.btc: 1GMYEfx5vzCoctpLuBXpEkfr1MunSmhJTs - 1DsZs1UVEHBEWv4MSwLksM8yEbjDWUS1Ey
 
 async function liquidate(type, vaultAddress) {
+
     try {
-        const contractId = type == 'KUSDG' ? "166BxNmWGuZHYAVHCeh6D8i7XF5qX21kGT" : "1LBctrVzWGddqzDXJJC8WJm4ax69U5w8AJ";
-        const contractFunction = type == 'KUSDG' ? 'kgLiquidate' : 'ksLiquidate';
+        if (type == 'KOIN') {
+          const contract = new Contract({ 
+            id: "166BxNmWGuZHYAVHCeh6D8i7XF5qX21kGT",
+            abi: utils.tokenAbi, 
+            provider: kondor.provider, 
+            signer: kondor.getSigner(connectedAccount)
+          }).functions;
 
-        const contract = new Contract({
-            id: contractId,
-            abi: utils.tokenAbi,
-            provider: kondor.provider,
-            signer: kondor.getSigner(connectedAccount),
-        }).functions;
-
-        const { transaction, receipt } = await contract[contractFunction]({
+          const { transaction, receipt } = await contract.liquidateKusdKoin({
             account: connectedAccount,
             vault: vaultAddress
-        });
-        await log(transaction, receipt);
+          });
+          await log(transaction, receipt);
+        } else if (type == 'ETH') {
+          const contract = new Contract({ 
+            id: "1LBctrVzWGddqzDXJJC8WJm4ax69U5w8AJ",
+            abi: utils.tokenAbi, 
+            provider: kondor.provider, 
+            signer: kondor.getSigner(connectedAccount)
+          }).functions;
+
+          const { transaction, receipt } = await contract.liquidateKusdEth({
+            account: connectedAccount,
+            vault: vaultAddress
+          });
+          await log(transaction, receipt);
+        } else if (type == 'BTC') {
+          const contract = new Contract({ 
+            id: "1DsZs1UVEHBEWv4MSwLksM8yEbjDWUS1Ey",
+            abi: utils.tokenAbi, 
+            provider: kondor.provider, 
+            signer: kondor.getSigner(connectedAccount)
+          }).functions;
+
+          const { transaction, receipt } = await contract.liquidateKusdBtc({
+            account: connectedAccount,
+            vault: vaultAddress
+          });
+          await log(transaction, receipt);
+        }
 
     } catch (error) {
         console.log(error);
@@ -621,27 +871,34 @@ async function log(transaction, receipt) {
 //// Risky Vaults functionality ////
 function displayVaults() {
     resetVaults();
-    let vaultList = [], kPrice = Math.max(koinPrice, kapPrice);
+    let vaultList = [];
 
-    [...kgVaults, ...ksVaults].forEach(vault => {
-        let { koin, kusdgold, kusdsilver, eth, btc, kas } = vault[1];
-        let vaultCollateral = (!isNaN(+koin) ? koin / 100000000 * kPrice : 0) +
-                              (!isNaN(+eth) ? eth / 100000000 * ethPrice : 0) +
-                              (!isNaN(+btc) ? btc / 100000000 * btcPrice : 0) +
-                              (!isNaN(+kas) ? kas / 100000000 * kasPrice : 0);
-        let collTypes = [koin && 'KOIN', eth && 'ETH', btc && 'BTC', kas && 'KAS'].filter(Boolean);
-        let kusdType = kusdgold ? kusdgold : kusdsilver;
-        let collRatio = vaultCollateral / (kusdType / 100000000) * 100;
-
-        if (kusdgold || kusdsilver) {
-            vaultList.push([vault[0], kusdType / 100000000, kusdgold ? 'KUSDG' : 'KUSDS', collRatio.toFixed(2), collTypes]);
-        }
+    kusdKoinVaults.forEach((vault) => {
+      console.log(vault);
+      let {koin, kusd_koin, eth, kusd_eth, btc, kusd_btc} = vault[1];
+      let debtType = kusd_koin ? 'Kusd.koin' :
+               kusd_eth ? 'Kusd.eth' :
+               kusd_btc ? 'Kusd.btc' :
+               undefined;
+      if (debtType) {
+        let debtAmount = (kusd_koin || kusd_eth || kusd_btc) / 100000000;
+        let collateralType = koin ? 'Koin' : eth ? 'Eth' : 'Btc';
+        let collateralAmount = (koin || eth || btc) / 100000000;
+        let collateralValue = 
+            (!isNaN(+koin) ? koin / 100000000 * koinPrice : 0) + 
+            (!isNaN(+eth) ? eth / 100000000 * ethPrice : 0) + 
+            (!isNaN(+btc) ? btc / 100000000 * btcPrice : 0);
+        let collateralRatio = collateralValue / debtAmount * 100;
+        vaultList.push([vault[0], debtAmount, debtType, collateralRatio, collateralType]);
+      }
     });
+
     vaultList.sort((a, b) => a[3] - b[3]);
     vaultList.forEach(element => addVault(...element));
+
 }
 
-function addVault(address, debt, type, collRatio, collTypes) {
+function addVault(address, debt, type, collRatio, collType) {
     const vaultHook = document.getElementById('vaultHook');
     const newChild = document.createElement('div');
     newChild.className = 'flex justify-between items-center';
@@ -655,9 +912,7 @@ function addVault(address, debt, type, collRatio, collTypes) {
     const collDiv = document.createElement('div');
     collDiv.style.width = '100px';
     collDiv.className = 'text-gray-600 font-medium';
-    if (collTypes) {
-      collDiv.textContent = collTypes.join(", ");
-    } 
+    collDiv.textContent = collType;
     
     const debtDiv = document.createElement('div');
     debtDiv.style.width = '120px';
